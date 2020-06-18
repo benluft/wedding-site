@@ -1,0 +1,27 @@
+{% load static %}
+<link href='https://fonts.googleapis.com/css?family=Calligraffitti' rel='stylesheet'>
+<html lang="en">
+<head>
+    {% block header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'homepage/basepage.css' %}">
+    <title>B and M Wedding</title>
+    {% endblock %}
+</head>
+<body>
+
+<h1 class="pageTitle">Ben and Maddie's Wedding Page</h1>
+
+<ul class="navbar">
+    <li></li>
+    {% for pagename, stuff in page_names.items %}
+        <li><a href="{% url stuff %}">{{ pagename }}</a></li>
+    {% endfor %}
+    <li></li>
+</ul>
+
+{% block content %}
+<p>We are so excited to have everyone coming to our Wedding!</p>
+{% endblock %}
+
+</body>
+</html>
