@@ -1,11 +1,13 @@
 {% load static %}
-<link href='https://fonts.googleapis.com/css?family=Calligraffitti' rel='stylesheet'>
+<!doctype html>
 <html lang="en">
+<link href='https://fonts.googleapis.com/css?family=Calligraffitti' rel='stylesheet'>
 <head>
-    {% block header %}
-    <link rel="stylesheet" type="text/css" href="{% static 'homepage/basepage.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'homepage/basepage.css' %}?{% now "U" %}">
     <title>B and M Wedding</title>
-    {% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
 
@@ -14,7 +16,11 @@
 <ul class="navbar">
     <li></li>
     {% for pagename, stuff in page_names.items %}
-        <li><a href="{% url stuff %}">{{ pagename }}</a></li>
+        {% if pagename == current_page_name %}
+            <li><a class="inactive" href="{% url stuff %}">{{ pagename }}</a></li>
+        {% else %}
+            <li><a class="active" href="{% url stuff %}">{{ pagename }}</a></li>
+        {% endif %}
     {% endfor %}
     <li></li>
 </ul>

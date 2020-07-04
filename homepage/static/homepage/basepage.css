@@ -1,0 +1,53 @@
+
+*{
+    font-family: Calligraffitti;
+}
+body{
+  background-color: #ffffee;
+  background-image: url("/static/homepage/IMG_20200501_201142.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+ul.navbar
+{
+  color: #222222;
+  padding: 12px;
+  background-color: #fff0ff;
+  display: flex;
+  justify-content: space-between;
+}
+ul.navbar li{
+    padding-top: 2px;
+    padding-right: 12px;
+    padding-left: 12px;
+    display: inline;
+    text-align: center;
+    font-size: 150%
+}
+
+ul.navbar li a.active{
+    color: #555555;
+}
+
+ul.navbar li a.inactive{
+    color: black;
+    font-weight: bold;
+}
+
+
+ul.navbar li:hover{
+    background-color: #fff2ff
+}
+
+
+
+a {
+    color: black
+}
+
+h1.pageTitle{
+    text-align: center;
+    font-size: 300%;
+    font-family: Calligraffitti;
+    padding: 1%
+}
