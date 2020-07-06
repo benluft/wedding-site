@@ -1,13 +1,22 @@
 
 *{
+/*
     font-family: Calligraffitti;
+*/
+    font-family: 'Marck Script', cursive;
 }
 body{
   background-color: #ffffee;
-  background-image: url("/static/homepage/IMG_20200501_201142.jpg");
+/*  background-image: url("/static/homepage/IMG_20200501_201142.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+*/
 }
+
+h1.bodyHeading {
+    font-family: 'Marck Script', cursive;
+}
+
 ul.navbar
 {
   color: #222222;
@@ -15,6 +24,7 @@ ul.navbar
   background-color: #fff0ff;
   display: flex;
   justify-content: space-between;
+  width:"100%"
 }
 ul.navbar li{
     padding-top: 2px;
@@ -23,15 +33,18 @@ ul.navbar li{
     display: inline;
     text-align: center;
     font-size: 150%
+    width:"100%";
 }
 
 ul.navbar li a.active{
     color: #555555;
+    width: "100%";
 }
 
 ul.navbar li a.inactive{
     color: black;
     font-weight: bold;
+    width: "100%";
 }
 
 
@@ -48,6 +61,20 @@ a {
 h1.pageTitle{
     text-align: center;
     font-size: 300%;
-    font-family: Calligraffitti;
+    font-family: 'Marck Script', cursive;
     padding: 1%
+}
+
+p.center{
+    vertical-align: middle;
+}
+
+.w3-row-padding{
+    display:flex;
+    flex-wrap:wrap;
+}
+
+.w3-half{
+    min-width:250px;
+    flex:1;
 }

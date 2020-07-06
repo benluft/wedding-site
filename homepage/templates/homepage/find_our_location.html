@@ -1,5 +1,34 @@
 {% extends 'homepage/landingpage.html' %}
+{% load static %}
 
 {% block content %}
-<p>Find Our Location</p>
+<h1 class="bodyHeading">Reception Location - Bearspaw Community Center</h1>
+
+<div class="w3-row-padding">
+    <div class="w3-half">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d20020.777872559353!2d-114.279722!3d51.152778!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xf6ad56c36b2b143f!2sBearspaw%20Lifestyle%20Centre!5e0!3m2!1sen!2sca!4v1593996964495!5m2!1sen!2sca"
+            width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+    </div>
+    <div class="w3-half">
+        <p class="center">The Bearspaw Community Center is located West of Highway 1A, adjacent to the Bearspaw School</p>
+        <a title="Qyd (talk · contribs) / CC BY-SA (http://creativecommons.org/licenses/by-sa/3.0/)" href="https://commons.wikimedia.org/wiki/File:Bearspaw-community_center.JPG">
+            <img width="100%" alt="Bearspaw-community center"
+                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Bearspaw-community_center.JPG/512px-Bearspaw-community_center.JPG">
+        </a>
+
+    </div>
+</div>
+<h1 class="bodyHeading">Ceremony Location - Luft Family Farm</h1>
+
+<div class="w3-row-padding">
+    <div class="w3-half">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d16740.52424201911!2d-114.46702507187922!3d51.41235484255815!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x53714dcd520bf9e9%3A0x590faa3fd4f9d9f7!2s41167%20Township%20Rd%20284%2C%20Rocky%20View%20County%2C%20AB!5e0!3m2!1sen!2sca!4v1593996368397!5m2!1sen!2sca"
+            width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+    </div>
+    <div class="w3-half">
+        <p class="center">The Luft Family Farm is located on Township Road 284, about 2.5 km East of the Bottrel General Store. When driving North down
+            highway 22, turn East at the sign for Bottrel, and take your next left</p>
+        <img width="100%" src="{% static "homepage/background_test_image.jpg" %}" />
+    </div>
+</div>
 {% endblock %}

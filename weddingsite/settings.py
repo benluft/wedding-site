@@ -25,7 +25,7 @@ SECRET_KEY = 'i1r(56k5^(dy7s!m=pm#2^n&&_(fin9gib+ln$0wjy30ari1fd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', '192.168.0.22']
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'easy_maps'
 ]
 
 MIDDLEWARE = [
@@ -121,7 +122,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'weddingsite\static'),
+    os.path.join(BASE_DIR, 'homepage/static/homepage'),
 )
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# My stuff, added manually
+

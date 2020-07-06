@@ -1,13 +1,16 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
-<link href='https://fonts.googleapis.com/css?family=Calligraffitti' rel='stylesheet'>
+<!--<link href='https://fonts.googleapis.com/css?family=Calligraffitti' rel='stylesheet'>-->
+<link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'homepage/basepage.css' %}?{% now "U" %}">
     <title>B and M Wedding</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
 
@@ -25,9 +28,11 @@
     <li></li>
 </ul>
 
-{% block content %}
-<p>We are so excited to have everyone coming to our Wedding!</p>
-{% endblock %}
-
+<div align="center">
+    {% block content %}
+    <p>We are so excited to have everyone coming to our Wedding!</p>
+    <img width="100%" src="{% static "homepage/shrunk_engagement_1.jpg" %}" alt="My Image">
+    {% endblock %}
+</div>
 </body>
 </html>
