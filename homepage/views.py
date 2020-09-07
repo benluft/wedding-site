@@ -12,7 +12,7 @@ class WeddingPageTemplateView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context['page_names'] = {"Welcome": "landingpage:landing",
-                                 "RSVP": "landingpage:rsvp",
+                                 "RSVP": "rsvppage:rsvp",
                                  "Registry": "landingpage:registry",
                                  "Find our Location": "landingpage:find_our_location"}
         return context
@@ -25,16 +25,6 @@ class LandingPage(WeddingPageTemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context['current_page_name'] = "Welcome"
-        return context
-
-
-class RSVPPage(WeddingPageTemplateView):
-
-    template_name = r'homepage/rsvp.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context['current_page_name'] = "RSVP"
         return context
 
 

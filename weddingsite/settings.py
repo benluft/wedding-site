@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['0.0.0.0', '192.168.0.106']
 
 INSTALLED_APPS = [
     'homepage.apps.HomepageConfig',
+    'rsvp.apps.RsvpConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

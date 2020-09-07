@@ -3,12 +3,17 @@ import uuid
 from phonenumber_field.modelfields import PhoneNumberField
 
 # TODO: Select the correct meal types
-MEALS = ['Chicken', 'Vegetarian', 'Beef']
+MEALS = [('CHICKEN', 'Chicken'),
+         ('VEG', 'Vegetarian'),
+         ('BEEF', 'Beef')]
 
 
 class Party(models.Model):
     """
     A party consists of one or mores guests
+
+    Must have a name, invitation ID, and email OR phone number
+
     """
     name = models.TextField()
     invitation_id = models.UUIDField(db_index=True, default=uuid.uuid4, unique=False)
@@ -24,7 +29,7 @@ class Guests(models.Model):
     first_name = models.TextField()
     last_name = models.TextField()
     party = models.ForeignKey(Party, on_delete=models.CASCADE)
-    is_attending = models.NullBooleanField(deafult=None)
+    is_attending = models.NullBooleanField(default=None)
     is_child = models.BooleanField(default=False)
     meal = models.CharField(max_length=20, choices=MEALS)
 
