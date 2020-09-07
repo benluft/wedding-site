@@ -1,8 +1,10 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
-<!--<link href='https://fonts.googleapis.com/css?family=Calligraffitti' rel='stylesheet'>-->
+<link href='https://fonts.googleapis.com/css?family=Calligraffitti' rel='stylesheet'>
 <link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Merienda&display=swap" rel="stylesheet">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -14,7 +16,7 @@
 </head>
 <body>
 
-<h1 class="pageTitle">Ben and Maddie's Wedding Page</h1>
+<h1 class="pageTitle">Ben and Maddie's Wedding</h1>
 
 <ul class="navbar">
     <li></li>
@@ -28,11 +30,12 @@
     <li></li>
 </ul>
 
-<div align="center">
+<div class="main_div" align="center">
     {% block content %}
     <p>We are so excited to have everyone coming to our Wedding!</p>
-    <img width="100%" src="{% static "homepage/shrunk_engagement_1.jpg" %}" alt="My Image">
+    <img width="100%" src="{% static "homepage/background_final_1.jpg" %}" alt="My Image">
     {% endblock %}
 </div>
+
 </body>
 </html>

@@ -1,9 +1,11 @@
 
+
 *{
 /*
     font-family: Calligraffitti;
+    font-family: 'New Century Schoolbook', cursive;
 */
-    font-family: 'Marck Script', cursive;
+    font-family: 'Merienda', cursive;
 }
 body{
   background-color: #ffffee;
@@ -14,7 +16,7 @@ body{
 }
 
 h1.bodyHeading {
-    font-family: 'Marck Script', cursive;
+    font-family: 'Gloria Hallelujah', cursive;
 }
 
 ul.navbar
@@ -28,12 +30,18 @@ ul.navbar
 }
 ul.navbar li{
     padding-top: 2px;
-    padding-right: 12px;
-    padding-left: 12px;
+    padding-right: 5px;
+    padding-left: 5px;
     display: inline;
     text-align: center;
-    font-size: 150%
+    font-size: 75%
     width:"100%";
+}
+
+@media only screen and (min-device-width: 480px){
+    ul.navbar li a{
+        font-size:200%
+    }
 }
 
 ul.navbar li a.active{
@@ -60,18 +68,40 @@ a {
 
 h1.pageTitle{
     text-align: center;
-    font-size: 300%;
+    font-size: 500%;
     font-family: 'Marck Script', cursive;
     padding: 1%
+}
+@media only screen and (max-device-width: 480px){
+    h1.pageTitle{
+        text-align: center;
+        font-size: 300%;
+        font-family: 'Marck Script', cursive;
+        padding: 1%
+    }
+}
+
+p{
+    font-size: 20px;
 }
 
 p.center{
     vertical-align: middle;
+
+}
+
+div.main_div{
+    margin-left: 3%;
+    margin-right: 3%;
+    padding: 2%;
+    background-color: #ffeedd;
 }
 
 .w3-row-padding{
     display:flex;
     flex-wrap:wrap;
+    margin-bottom:100px;
+
 }
 
 .w3-half{

@@ -25,7 +25,7 @@ SECRET_KEY = 'i1r(56k5^(dy7s!m=pm#2^n&&_(fin9gib+ln$0wjy30ari1fd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', '192.168.0.22']
+ALLOWED_HOSTS = ['0.0.0.0', '192.168.0.106']
 
 
 # Application definition
@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'easy_maps'
+    'easy_maps',
+    'phonenumber_field'
 ]
 
 MIDDLEWARE = [
