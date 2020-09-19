@@ -3,5 +3,5 @@ from . import views
 
 app_name = 'rsvppage'
 urlpatterns = [
-    path('', views.RSVPPage.as_view(), name='rsvp'),
+    path('', views.RSVPLogin.as_view(), name='rsvp'),
 ]

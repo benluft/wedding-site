@@ -4,7 +4,7 @@ from homepage.views import WeddingPageTemplateView
 
 
 # Create your views here.
-class RSVPPage(WeddingPageTemplateView):
+class RSVPLogin(WeddingPageTemplateView):
 
     template_name = r'rsvp/rsvp.html'
 
