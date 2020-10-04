@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+# from rsvp.models import PartyModel
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +26,7 @@ SECRET_KEY = 'i1r(56k5^(dy7s!m=pm#2^n&&_(fin9gib+ln$0wjy30ari1fd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', '192.168.0.106']
+ALLOWED_HOSTS = ['0.0.0.0', '192.168.0.106', '192.168.88.244']
 
 
 # Application definition
@@ -131,3 +132,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # My stuff, added manually
 
+AUTH_USER_MODEL = 'rsvp.PartyModel'
+
+AUTHENTICATION_BACKENDS = (
+    'rsvp.auth_backend.PasswordOnlyAuthBackend',
+)

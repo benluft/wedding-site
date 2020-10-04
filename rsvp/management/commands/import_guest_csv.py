@@ -1,12 +1,13 @@
 import os
 from rsvp.models import PartyModel, GuestsModel
 from django.core.management.base import BaseCommand, CommandError
+from django.db.models import ObjectDoesNotExist
 
 
 class Command(BaseCommand):
 
     help = ("\n"
-            "    Run in the same directory as a csv named guest_list.csv with the following 3 columns\n"
+            "    Run in the same directory as a csv named test_guest_list.csv with the following 3 columns\n"
             "\n"
             "    party name, guest first name, guest last name\n"
             "\n"
@@ -21,8 +22,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if not os.path.exists(options['csv_path']):
-            print('guest_list.csv was not found. Exiting')
-            raise CommandError
+            print('test_guest_list.csv was not found. Exiting')
+            raise CommandError("Path {} does not exist".format(options['csv_path']))
 
         with open(options['csv_path']) as guest_csv:
             header_encountered = False
@@ -37,7 +38,10 @@ class Command(BaseCommand):
                     current_party = split_line[0]
                 # Get or create returns a tuple, the first of which is the object, and the second of which is
                 # true if created, or false if not created
-                party_model_tuple = PartyModel.objects.get_or_create(name=current_party)
-                guests_model = GuestsModel.objects.create(first_name=split_line[1], last_name=split_line[2], party=party_model_tuple[0])
-                party_model_tuple[0].save()
+                try:
+                    party_model = PartyModel.objects.get(party_name=current_party)
+                except ObjectDoesNotExist:
+                    party_model = PartyModel.objects.create_user(party_name=current_party)
+                guests_model = GuestsModel.objects.create(first_name=split_line[1], last_name=split_line[2], party=party_model)
+                party_model.save()
                 guests_model.save()

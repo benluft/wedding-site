@@ -1,26 +1,36 @@
 from django.db import models
-import random
-import string
-from phonenumber_field.modelfields import PhoneNumberField
-
-# TODO: Select the correct meal types
-MEALS = [('CHICKEN', 'Chicken'),
-         ('VEG', 'Vegetarian'),
-         ('BEEF', 'Beef')]
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.hashers import check_password, is_password_usable, make_password
+from django.db.utils import IntegrityError
 
 PASSWORD_LENGTH = 15
 
 
-def random_invitation_password():
-    possible_chars = string.ascii_letters + string.digits
-    for _ in range(100):
-        password = ''.join(random.choice(possible_chars) for i in range(PASSWORD_LENGTH))
-        if not PartyModel.objects.filter(invitation_password=password):
-            return password
-    raise ValueError("Could not pick a unique password, tried 100 times")
+class PartyManager(BaseUserManager):
+    use_in_migrations = True
+
+    def _create_user(self, party_name, password=None, **extra_fields):
+        if not party_name:
+            raise ValueError("The Party Name must be set")
+        if password is None:
+            password_encoded = make_password(self.make_random_password(PASSWORD_LENGTH))
+        else:
+            password_encoded = make_password(password)
+        party = self.model(party_name=party_name, password=password_encoded, **extra_fields)
+        party.save()
+        return party
+
+    def create_user(self, party_name, **extra_fields):
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(party_name, **extra_fields)
+
+    def create_superuser(self, party_name, password, **extra_fields):
+        print("Party name is {}, password is {}".format(party_name, password))
+        extra_fields.setdefault('is_superuser', True)
+        return self._create_user(party_name, password, **extra_fields)
 
 
-class PartyModel(models.Model):
+class PartyModel(AbstractBaseUser, PermissionsMixin):
     """
     A party consists of one or mores guests
 
@@ -29,12 +39,15 @@ class PartyModel(models.Model):
     The invitation password is a 15 character random value
 
     """
-    name = models.TextField()
-    invitation_password = models.CharField(editable=False, unique=True, max_length=PASSWORD_LENGTH,
-                                           default=random_invitation_password)
-    email = models.TextField(null=True)
-    phone_number = PhoneNumberField(null=True)
-    comments_or_questions = models.TextField(null=True)
+    party_name = models.TextField(unique=True)
+    password = models.CharField(max_length=128, unique=True)
+    email = models.EmailField(blank=True)
+    comments_or_questions = models.TextField(null=True, blank=True)
+
+    objects = PartyManager()
+
+    USERNAME_FIELD = 'password'
+    REQUIRED_FIELDS = ['party_name']
 
 
 class GuestsModel(models.Model):
@@ -45,6 +58,9 @@ class GuestsModel(models.Model):
     last_name = models.TextField()
     party = models.ForeignKey(PartyModel, on_delete=models.CASCADE)
     is_attending = models.NullBooleanField(default=None)
-    is_child = models.BooleanField(default=False)
-    meal = models.CharField(max_length=20, choices=MEALS)
 
+    class Meta:
+        unique_together = ['first_name', 'last_name', 'party']
+
+    def get_party_name(self):
+        return self.party.party_name

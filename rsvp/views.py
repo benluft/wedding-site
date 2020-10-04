@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.base import View
 
 from homepage.views import WeddingPageTemplateView
 
@@ -12,3 +14,8 @@ class RSVPLogin(WeddingPageTemplateView):
         context = super().get_context_data()
         context['current_page_name'] = "RSVP"
         return context
+
+
+class RSVPPage(LoginRequiredMixin, View):
+    login_url = '/add_rsvp/'
+    redirect_field_name = '/rsvp/'
