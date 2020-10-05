@@ -1,0 +1,10 @@
+{% extends 'homepage/landingpage.html' %}
+
+{% block content %}
+<p>Please sign in with the Invitation Password</p>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save">
+</form>
+{% endblock %}

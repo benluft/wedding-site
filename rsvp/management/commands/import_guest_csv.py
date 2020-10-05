@@ -1,4 +1,8 @@
 import os
+
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
+
 from rsvp.models import PartyModel, GuestsModel
 from django.core.management.base import BaseCommand, CommandError
 
@@ -6,7 +10,7 @@ from django.core.management.base import BaseCommand, CommandError
 class Command(BaseCommand):
 
     help = ("\n"
-            "    Run in the same directory as a csv named guest_list.csv with the following 3 columns\n"
+            "    Run in the same directory as a csv named test_guest_list.csv with the following 3 columns\n"
             "\n"
             "    party name, guest first name, guest last name\n"
             "\n"
@@ -21,9 +25,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if not os.path.exists(options['csv_path']):
-            print('guest_list.csv was not found. Exiting')
-            raise CommandError
-
+            raise CommandError('test_guest_list.csv was not found. Exiting')
+        dirname = os.path.dirname(options['csv_path'])
+        output_csv_path = os.path.join(dirname, "csv_with_passwords.csv")
+        if not os.path.exists(output_csv_path):
+            with open(output_csv_path, "w") as output_f:
+                output_f.write("Party,First Name,Last Name,Password\n")
         with open(options['csv_path']) as guest_csv:
             header_encountered = False
             current_party = None
@@ -35,9 +42,21 @@ class Command(BaseCommand):
                 split_line = [field.strip() for field in split_line]
                 if split_line[0] != "":
                     current_party = split_line[0]
-                # Get or create returns a tuple, the first of which is the object, and the second of which is
-                # true if created, or false if not created
-                party_model_tuple = PartyModel.objects.get_or_create(name=current_party)
-                guests_model = GuestsModel.objects.create(first_name=split_line[1], last_name=split_line[2], party=party_model_tuple[0])
-                party_model_tuple[0].save()
-                guests_model.save()
+                    party_model = PartyModel.objects.create(party_name=current_party)
+                    plaintext_password = party_model.set_password()
+                else:
+                    party_model = PartyModel.objects.get(party_name=current_party)
+                try:
+                    GuestsModel.objects.create(first_name=split_line[1], last_name=split_line[2], party=party_model)
+                except ValidationError:
+                    continue
+
+                # Write a csv to show the passwords that can be used in the invitations
+                with open(output_csv_path, 'a') as csv_write:
+                    no_newline_line = line.replace('\n', '')
+                    csv_write.write(no_newline_line)
+                    if split_line[0] != "":
+                        csv_write.write(",{}".format(plaintext_password))
+                    csv_write.write("\n")
+        os.remove(options['csv_path'])
+
