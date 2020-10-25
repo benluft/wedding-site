@@ -35,10 +35,22 @@ class PartyLoginForm(forms.Form):
 
 
 class GuestRSVPForm(ModelForm):
-    # first_name = forms.CharField(disabled=True)
-    # last_name = forms.CharField(disabled=True)
 
     class Meta:
         model = GuestsModel
         fields = ['first_name', 'last_name', 'is_attending']
+
+    def clean_is_attending(self):
+        if self.cleaned_data['is_attending']:
+            return self.cleaned_data['is_attending']
+        else:
+            raise ValidationError("Please Indicate whether each guest will be attending")
+
+
+class PartyRSVPForm(ModelForm):
+    confirm_email = forms.EmailField()
+
+    class Meta:
+        model = PartyModel
+        fields = ['email', 'confirm_email', 'comments_or_questions']
 

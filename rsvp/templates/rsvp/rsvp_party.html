@@ -1,0 +1,13 @@
+{% extends 'homepage/landingpage.html' %}
+
+{% block content %}
+<h1 class="bodyHeading">RSVP for {{ party_name }}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <table class="guest_list_table">
+        {{ formset }}
+    </table>
+    <input type="submit" value="Submit" />
+</form>
+{% endblock %}
