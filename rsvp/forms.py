@@ -28,5 +28,6 @@ class PartyLoginForm(forms.Form):
         all_parties = PartyModel.objects.all()
         for party in all_parties:
             if party.check_password(self.cleaned_data['password']):
+                self.cleaned_data['party_id'] = party.id
                 return self.cleaned_data['password']
         raise ValidationError("Password is Incorrect")
