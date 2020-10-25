@@ -50,8 +50,8 @@ class GuestsModel(models.Model):
     """
     A guest for the wedding, belongs to a party
     """
-    first_name = models.TextField()
-    last_name = models.TextField()
+    first_name = models.TextField(editable=False, blank=False)
+    last_name = models.TextField(editable=False, blank=False)
     party = models.ForeignKey(PartyModel, on_delete=models.CASCADE)
     is_attending = models.NullBooleanField(default=None)
 

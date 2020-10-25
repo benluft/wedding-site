@@ -4,22 +4,25 @@ from homepage.views import WeddingPageTemplateView
 from rsvp.models import PartyModel, GuestsModel
 from rsvp.forms import PartyLoginForm
 
+from extra_views import ModelFormSetView
+
 
 # Create your views here.
-class RSVPEnterInfo(WeddingPageTemplateView, ListView):
+class RSVPEnterInfo(ModelFormSetView):
     template_name = r'rsvp/rsvp.html'
     model = GuestsModel
+    fields = ['first_name', 'last_name', 'is_attending']
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.object_list = None
 
     def get_queryset(self):
-        objects = self.model.objects.filter(party=self.request.session['party_id'])
-        return objects
+        return super(RSVPEnterInfo, self).get_queryset().filter(party=self.request.session['party_id'])
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        self.object_list = self.get_queryset()
+        context = super(ModelFormSetView, self).get_context_data(**kwargs)
         context['current_page_name'] = "RSVP"
         party = PartyModel.objects.get(id=self.request.session['party_id'])
         context['party_name'] = party.party_name
@@ -35,7 +38,7 @@ class RSVPLogin(WeddingPageTemplateView, FormView):
     success_url = 'enter_info/'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         context['current_page_name'] = "RSVP"
         return context
 
