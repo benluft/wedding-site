@@ -1,9 +1,10 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django.forms import ModelForm
 from django.forms.utils import ErrorList
 from django.utils.html import format_html
 
-from rsvp.models import PASSWORD_LENGTH, PartyModel
+from rsvp.models import PASSWORD_LENGTH, PartyModel, GuestsModel
 
 
 class PartyErrorList(ErrorList):
@@ -31,3 +32,13 @@ class PartyLoginForm(forms.Form):
                 self.cleaned_data['party_id'] = party.id
                 return self.cleaned_data['password']
         raise ValidationError("Password is Incorrect")
+
+
+class GuestRSVPForm(ModelForm):
+    # first_name = forms.CharField(disabled=True)
+    # last_name = forms.CharField(disabled=True)
+
+    class Meta:
+        model = GuestsModel
+        fields = ['first_name', 'last_name', 'is_attending']
+

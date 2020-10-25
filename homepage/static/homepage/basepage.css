@@ -108,3 +108,21 @@ div.main_div{
     min-width:250px;
     flex:1;
 }
+
+table.guest_list_table{
+    width:90%;
+    text-align:center;
+}
+
+th, td {
+    padding:5px;
+}
+
+@media only screen and (min-device-width: 480px){
+    table.guest_list_table{
+        width:50%;
+        text-align:center;
+    }
+}
+
+
