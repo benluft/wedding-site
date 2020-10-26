@@ -4,22 +4,27 @@
 <h1 class="bodyHeading">RSVP for {{ party_name }}</h1>
 <form method="post">
     {% csrf_token %}
-    {{ formset.management_form }}
     <table class="guest_list_table">
-        <tr>
-            <th style="text">First Name</th>
-            <th>Last Name</th>
-            <th>Is This Guest Attending?</th>
-        </tr>
-        {% for form in formset %}
-        <tr>
-            {% for field in form %}
-                {% if field.label == "First name" or field.label == "Last name" %}
-                    <td>{{ field.value }}</td>
-                {% endif %}
+
+        {{ form }}
+
+        {% for formset in inlines %}
+            {{ formset.management_form }}
+            <tr>
+                <th style="text">First Name</th>
+                <th>Last Name</th>
+                <th>Is This Guest Attending?</th>
+            </tr>
+            {% for form in formset %}
+            <tr>
+                {% for field in form %}
+                    {% if field.label == "First name" or field.label == "Last name" %}
+                        <td>{{ field.value }}</td>
+                    {% endif %}
+                {% endfor %}
+                <td>{{ form.is_attending }}</td>
+            </tr>
             {% endfor %}
-            <td>{{ form.is_attending }}</td>
-        </tr>
         {% endfor %}
     </table>
     <p>{{ formset.errors }}</p>

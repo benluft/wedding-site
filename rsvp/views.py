@@ -1,60 +1,66 @@
 from django.forms import ModelForm
 from django.forms.models import BaseModelFormSet
+from django.shortcuts import get_object_or_404
 from django.views.generic import FormView, ListView, UpdateView
 
 from homepage.views import WeddingPageContextMixin
 from rsvp.models import PartyModel, GuestsModel
 from rsvp.forms import PartyLoginForm, GuestRSVPForm, PartyRSVPForm
 
-from extra_views import ModelFormSetView
+from extra_views import ModelFormSetView, InlineFormSetFactory, UpdateWithInlinesView
 
 from django.forms import formset_factory
 
 
 # Create your views here.
 
-class BaseModelFormSetUpdated(BaseModelFormSet):
 
-    def has_changed(self):
-        changed_data = super().has_changed()
-        return True
+# class RSVPEnterPartyInfoView(WeddingPageContextMixin, ModelFormSetView):
+#
+#     def get_navbar_focus(self):
+#         return "RSVP"
+#
+#     template_name = r'rsvp/rsvp_party.html'
+#     model = PartyModel
+#     form_class = PartyRSVPForm
+#     factory_kwargs = {'extra': 0}
+#
+#     def get_queryset(self):
+#         return super(RSVPEnterPartyInfoView, self).get_queryset().filter(id=self.request.session['party_id'])
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         party = PartyModel.objects.get(id=self.request.session['party_id'])
+#         context['party_name'] = party.party_name
+#         return context
 
-
-class RSVPEnterPartyInfoView(WeddingPageContextMixin, ModelFormSetView):
-
-    def get_navbar_focus(self):
-        return "RSVP"
-
-    template_name = r'rsvp/rsvp_party.html'
-    model = PartyModel
-    form_class = PartyRSVPForm
+class GuestInline(InlineFormSetFactory):
+    model = GuestsModel
     factory_kwargs = {'extra': 0}
-
-    def get_queryset(self):
-        return super(RSVPEnterPartyInfoView, self).get_queryset().filter(id=self.request.session['party_id'])
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        party = PartyModel.objects.get(id=self.request.session['party_id'])
-        context['party_name'] = party.party_name
-        return context
+    fields = ['first_name', 'last_name', 'is_attending']
 
 
-class RSVPEnterGuestInfoView(WeddingPageContextMixin, ModelFormSetView):
+
+
+class RSVPEnterGuestInfoView(WeddingPageContextMixin, UpdateWithInlinesView):
+    model = PartyModel
+    inlines = [GuestInline]
+    fields = ['email', 'comments_or_questions']
 
     def get_navbar_focus(self):
         return "RSVP"
 
     template_name = r'rsvp/rsvp_guest.html'
-    model = GuestsModel
-    factory_kwargs = {'extra': 0, 'form': GuestRSVPForm, 'formset': BaseModelFormSetUpdated}
     success_url = '../enter_party_info/'
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def get_queryset(self):
-        return super(RSVPEnterGuestInfoView, self).get_queryset().filter(party=self.request.session['party_id'])
+        return super(RSVPEnterGuestInfoView, self).get_queryset().filter(id=self.request.session['party_id'])
+
+    def get_object(self):
+        return get_object_or_404(PartyModel, pk=self.request.session['party_id'])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
