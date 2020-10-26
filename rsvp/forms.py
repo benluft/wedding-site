@@ -1,10 +1,14 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
+from django.forms.models import BaseModelFormSet
 from django.forms.utils import ErrorList
 from django.utils.html import format_html
 
 from rsvp.models import PASSWORD_LENGTH, PartyModel, GuestsModel
+
+
+
 
 
 class PartyErrorList(ErrorList):
@@ -36,15 +40,27 @@ class PartyLoginForm(forms.Form):
 
 class GuestRSVPForm(ModelForm):
 
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    party = forms.CharField()
+    id = forms.CharField()
+
     class Meta:
         model = GuestsModel
-        fields = ['first_name', 'last_name', 'is_attending']
+        fields = '__all__'
+
+    def clean(self):
+        return super().clean()
 
     def clean_is_attending(self):
         if self.cleaned_data['is_attending']:
             return self.cleaned_data['is_attending']
         else:
             raise ValidationError("Please Indicate whether each guest will be attending")
+
+    def has_changed(self):
+        changed_data = super().has_changed()
+        return True
 
 
 class PartyRSVPForm(ModelForm):

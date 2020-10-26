@@ -1,5 +1,6 @@
 from django.forms import ModelForm
-from django.views.generic import FormView, ListView
+from django.forms.models import BaseModelFormSet
+from django.views.generic import FormView, ListView, UpdateView
 
 from homepage.views import WeddingPageContextMixin
 from rsvp.models import PartyModel, GuestsModel
@@ -7,8 +8,17 @@ from rsvp.forms import PartyLoginForm, GuestRSVPForm, PartyRSVPForm
 
 from extra_views import ModelFormSetView
 
+from django.forms import formset_factory
+
 
 # Create your views here.
+
+class BaseModelFormSetUpdated(BaseModelFormSet):
+
+    def has_changed(self):
+        changed_data = super().has_changed()
+        return True
+
 
 class RSVPEnterPartyInfoView(WeddingPageContextMixin, ModelFormSetView):
 
@@ -37,13 +47,11 @@ class RSVPEnterGuestInfoView(WeddingPageContextMixin, ModelFormSetView):
 
     template_name = r'rsvp/rsvp_guest.html'
     model = GuestsModel
-    form_class = GuestRSVPForm
-    factory_kwargs = {'extra': 0}
+    factory_kwargs = {'extra': 0, 'form': GuestRSVPForm, 'formset': BaseModelFormSetUpdated}
     success_url = '../enter_party_info/'
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.object_list = None
 
     def get_queryset(self):
         return super(RSVPEnterGuestInfoView, self).get_queryset().filter(party=self.request.session['party_id'])
@@ -53,6 +61,14 @@ class RSVPEnterGuestInfoView(WeddingPageContextMixin, ModelFormSetView):
         party = PartyModel.objects.get(id=self.request.session['party_id'])
         context['party_name'] = party.party_name
         return context
+
+    def formset_invalid(self, formset):
+        print("invalid")
+        return super().formset_invalid(formset)
+
+    def formset_valid(self, formset):
+        print("valid")
+        return super().formset_valid(formset)
 
 
 class RSVPLogin(WeddingPageContextMixin, FormView):
